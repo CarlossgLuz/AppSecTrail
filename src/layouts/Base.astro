@@ -4,5 +4,5 @@ interface Props { title: string; description?: string }
 const { title, description = 'Aprenda segurança de aplicações e DevSecOps no seu ritmo.' } = Astro.props;
 ---
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><title>{title} | AppSecTrail</title></head><body>
-<a class="skip" href="#conteudo">Pular para o conteúdo</a><header><div class="shell header-inner"><a class="brand" href="/">AppSec<span>Trail</span></a><nav aria-label="Navegação principal"><a href="/">Início</a><a href="/biblioteca/">Biblioteca</a><a href="/sobre/">Sobre</a></nav></div></header>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a><header><div class="shell header-inner"><a class="brand" href="/">AppSec<span>Trail</span></a><nav aria-label="Navegação principal"><a href="/">Início</a><a href="/biblioteca/">Biblioteca</a><a href="/perfil/">Perfil</a><a href="/sobre/">Sobre</a></nav></div></header>
 <main id="conteudo" class="shell"><slot /></main><footer><div class="shell">AppSecTrail · aprendizado aberto em construção</div></footer></body></html>

@@ -9,3 +9,18 @@ test('navega para biblioteca e mantém o conteúdo acessível na tela', async ({
   await expect(page.getByText('Ainda não há módulos publicados.')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
+
+test('cria, preserva após recarregar e edita perfil local', async ({ page }) => {
+  await page.goto('/perfil/');
+  const name = page.getByRole('textbox', { name: 'Nome ou apelido' });
+  await expect(name).toBeEnabled();
+  await name.fill('Ana');
+  await page.getByRole('button', { name: 'Salvar perfil' }).click();
+  await expect(page.getByRole('status')).toHaveText('Perfil salvo neste navegador.');
+  await page.reload();
+  await expect(name).toHaveValue('Ana');
+  await name.fill('Lia');
+  await page.getByRole('button', { name: 'Salvar perfil' }).click();
+  await page.reload();
+  await expect(name).toHaveValue('Lia');
+});
