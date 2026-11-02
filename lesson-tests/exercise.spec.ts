@@ -28,7 +28,7 @@ test('salva tentativa no perfil e mantém histórico após recarregar', async ({
   await expect(name).toBeEnabled();
   await name.fill('Ana');
   await page.getByRole('button', { name: 'Salvar perfil' }).click();
-  await expect(page.getByRole('status')).toHaveText('Perfil salvo neste navegador.');
+  await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
   await page.goto('/biblioteca/http-essencial/');
   await page.getByLabel('A mensagem enviada pelo servidor em retorno à requisição.').check();
   await page.getByRole('button', { name: 'Verificar resposta' }).click();
@@ -37,4 +37,37 @@ test('salva tentativa no perfil e mantém histórico após recarregar', async ({
   await expect(page.getByText(/http-essencial — acertou/)).toBeVisible();
   await page.reload();
   await expect(page.getByText(/http-essencial — acertou/)).toBeVisible();
+});
+
+test('exporta, valida, prevê e importa em outro contexto', async ({ browser }) => {
+  const first = await browser.newContext();
+  const page = await first.newPage();
+  await page.goto('/perfil/');
+  const name = page.getByRole('textbox', { name: 'Nome ou apelido' });
+  await expect(name).toBeEnabled(); await name.fill('Ana');
+  await page.getByRole('button', { name: 'Salvar perfil' }).click();
+  await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
+  await page.goto('/biblioteca/http-essencial/');
+  await page.getByLabel('A mensagem enviada pelo servidor em retorno à requisição.').check();
+  await page.getByRole('button', { name: 'Verificar resposta' }).click();
+  await expect(page.getByText('Tentativa salva no perfil local.')).toBeVisible();
+  await page.goto('/perfil/');
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Exportar perfil JSON' }).click();
+  const download = await downloadPromise;
+  const path = await download.path();
+  if (!path) throw new Error('Backup não disponível.');
+  const second = await browser.newContext();
+  const other = await second.newPage();
+  await other.goto('/perfil/');
+  await other.getByLabel('Selecionar backup JSON').setInputFiles('lesson-tests/invalid.json');
+  await expect(other.getByText(/Arquivo inválido/)).toBeVisible();
+  await other.getByLabel('Selecionar backup JSON').setInputFiles(path);
+  await expect(other.getByText(/Perfil: Ana/)).toBeVisible();
+  await other.getByRole('button', { name: 'Confirmar importação' }).click();
+  await expect(other.getByText(/Perfil importado/)).toBeVisible();
+  await other.reload();
+  await expect(other.getByRole('textbox', { name: 'Nome ou apelido' })).toHaveValue('Ana');
+  await expect(other.getByText(/http-essencial — acertou/)).toBeVisible();
+  await first.close(); await second.close();
 });

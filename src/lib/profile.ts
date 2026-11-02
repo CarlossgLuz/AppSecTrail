@@ -55,3 +55,14 @@ export async function recordAttempt(input: Omit<Attempt, 'at'>): Promise<boolean
     };
   });
 }
+export async function replaceProfileIfUnchanged(profile: Profile, expected: Profile | null): Promise<void> {
+  return access('readwrite', (store, done) => {
+    const request = store.get('active');
+    request.onsuccess = () => {
+      const current = (request.result as RecordData | undefined)?.data ?? null;
+      if (JSON.stringify(current) !== JSON.stringify(expected)) { request.transaction?.abort(); return; }
+      store.put({ key: 'active', data: profile } satisfies RecordData);
+      done(undefined);
+    };
+  });
+}
