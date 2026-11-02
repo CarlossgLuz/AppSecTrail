@@ -1439,3 +1439,51 @@ legend {
 .minimal-link-arrow {position:absolute;right:1.25rem;top:1.2rem;color:var(--text-muted)}
 .minimal-local-note {margin-top:1.5rem;font-size:.91rem}
 @media(max-width:640px){.minimal-home{margin:1rem 0 3rem}.minimal-next-links{grid-template-columns:1fr}.minimal-learning-flow{gap:.55rem;font-size:.78rem}.minimal-home h1{font-size:clamp(2.3rem,10.5vw,3.35rem)}}
+
+/* Content-first surfaces: keep UI chrome secondary to studying */
+.lesson-header-card {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 2.1rem;
+}
+.lesson-header-card h1 { max-width: 26ch; }
+.lesson-prose {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  max-width: 72ch;
+}
+.lesson-prose h2 { border-top-color: var(--border-subtle); }
+.lesson-sidebar { gap: .25rem; }
+.sidebar-box {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.05rem 0;
+}
+.breadcrumb-link {
+  background: transparent;
+  border: 0;
+  padding: .25rem 0;
+}
+.breadcrumb-bar { gap: 1.5rem; }
+.didactic-diagram { background: var(--surface-subtle); box-shadow: none; }
+.exercise-card { background: var(--surface); border-color: var(--border-subtle); }
+.catalog-toolbar { background: transparent; border: 0; padding: 0; }
+.question-card {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--border-subtle);
+  border-radius: 0;
+  padding: 1.4rem 0 0;
+}
+.stat-card { box-shadow: none; }
+.history-list li { border-color: transparent; }
+@media (max-width: 640px) {
+  .lesson-prose, .lesson-header-card { padding: 0; }
+  .lesson-sidebar { margin-top: 1.5rem; }
+}
