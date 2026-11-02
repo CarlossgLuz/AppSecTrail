@@ -32,3 +32,10 @@ jobs:
           if-no-files-found: warn
       - run: node scripts/build-lesson-fixture.mjs
       - run: npx playwright test --config=playwright.lesson.config.ts
+
+      - name: Validar build e jornada no subdiretório do Pages
+        run: |
+          APPSECTRAIL_GITHUB_PAGES=true npm run build
+          mkdir -p .pages-test
+          ln -s ../dist .pages-test/AppSecTrail
+          npx playwright test --config=playwright.pages.config.ts
