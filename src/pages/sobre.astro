@@ -2,4 +2,46 @@
 import { sitePath } from '../lib/paths';
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sobre"><p class="eyebrow">Projeto aberto</p><h1>Aprender segurança com clareza.</h1><p>O AppSecTrail é uma iniciativa gratuita para estudar segurança de aplicações e DevSecOps. O projeto está em desenvolvimento e não oferece certificação profissional.</p><p>O acesso aos módulos não exige cadastro. Recursos de progresso local e exportação estão planejados para etapas futuras.</p><a href={sitePath('/biblioteca/')}>Explorar a biblioteca →</a></Base>
+<Base title="Sobre">
+  <header class="lesson-header-card">
+    <p class="eyebrow">Projeto aberto</p>
+    <h1>Aprender segurança com clareza.</h1>
+    <p class="lead">
+      O AppSecTrail é uma iniciativa gratuita para estudar segurança de aplicações e DevSecOps. O projeto está em desenvolvimento e não oferece certificação profissional.
+    </p>
+    <p style="margin-bottom: 0;">
+      O acesso aos módulos não exige cadastro. Recursos de progresso local e exportação funcionam diretamente no seu navegador, preservando sua privacidade.
+    </p>
+  </header>
+
+  <div class="grid">
+    <article class="card">
+      <span class="badge badge-fundamentos">Arquitetura Local-First</span>
+      <h2>Privacidade por padrão</h2>
+      <p>
+        Seu perfil, histórico de estudo e avaliações ficam salvos localmente em IndexedDB no seu dispositivo, sem contas remotas ou rastreadores.
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="badge badge-appsec">Rigor Pedagógico</span>
+      <h2>Conteúdo revisado e aberto</h2>
+      <p>
+        Cada módulo publicado passa por revisão técnica, explicita objetivos e competências, traz práticas seguras de laboratório e cita fontes primárias verificáveis.
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="badge badge-devsecops">Código & Licenças</span>
+      <h2>MIT & Creative Commons</h2>
+      <p>
+        O código da plataforma é licenciado sob MIT e os módulos educacionais originais sob CC BY 4.0, incentivando colaboração aberta e auditável.
+      </p>
+    </article>
+  </div>
+
+  <div class="actions">
+    <a class="button" href={sitePath('/biblioteca/')}>Explorar a biblioteca →</a>
+    <a class="button secondary" href={sitePath('/trilhas/')}>Conhecer a trilha guiada</a>
+  </div>
+</Base>
