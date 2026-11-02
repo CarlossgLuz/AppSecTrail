@@ -1,10 +1,16 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent } from './profile';
+import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent, recordDiagnostic } from './profile';
 
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 
 describe('perfil local', () => {
+  it('preserva avaliações anteriores no perfil', async () => {
+    await createProfile('Ana');
+    await recordDiagnostic({ 'http-resposta': 'servidor', 'http-metodo': 'get' });
+    await recordDiagnostic({ 'http-resposta': 'cliente', 'http-metodo': 'get' });
+    expect((await getProfile())?.assessments?.map(a => a.correct)).toEqual([2, 1]);
+  });
   it('rejeita dados inválidos de aula sem alterar o perfil', async () => {
     await createProfile('Ana');
     const before = await getProfile();
