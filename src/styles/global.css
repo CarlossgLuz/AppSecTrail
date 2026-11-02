@@ -1487,3 +1487,16 @@ legend {
   .lesson-prose, .lesson-header-card { padding: 0; }
   .lesson-sidebar { margin-top: 1.5rem; }
 }
+
+/* A guided trail is a reading sequence, not a second dashboard. */
+.minimal-trail-progress {max-width:40rem;margin:0 0 2rem}
+.minimal-trail-progress p {margin:0 0 .55rem;font-size:.9rem}
+.minimal-trail-progress p:first-child {color:var(--text-muted)}
+.minimal-trail-progress .progress-track {height:.35rem}
+.minimal-trail-step {padding:.35rem 0 2rem;min-width:0}
+.minimal-trail-step h2 {font-size:1.15rem;margin:0 0 .35rem}
+.minimal-trail-step h2 a {color:var(--text-primary);text-decoration:none}
+.minimal-trail-step h2 a:hover {color:var(--accent-primary);text-decoration:underline}
+.minimal-trail-step p {font-size:.94rem;margin:0}
+.minimal-trail-step small {display:inline-block;color:var(--status-success);margin-top:.55rem}
+.minimal-trail-note {font-size:.94rem;margin-top:1rem}
