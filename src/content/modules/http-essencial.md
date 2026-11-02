@@ -43,6 +43,25 @@ HTTP é um protocolo usado para a troca de mensagens entre cliente e servidor. U
 
 Por exemplo, um navegador faz uma requisição `GET` para obter uma página. O servidor pode responder com status `200` e um corpo contendo HTML. Se o recurso não existir, pode responder com `404`. Os detalhes dependem do servidor e da situação.
 
+## Acompanhe uma troca
+Imagine que o navegador peça a página inicial de um site fictício:
+
+```http
+GET / HTTP/1.1
+Host: exemplo.test
+```
+
+`GET` indica a intenção de obter um recurso e `/` identifica o caminho pedido. O servidor poderia retornar:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+
+<h1>Olá!</h1>
+```
+
+A primeira linha da resposta traz o status; `Content-Type` descreve o tipo do corpo; após a linha em branco vem o conteúdo. O exemplo é ilustrativo: outras versões do HTTP usam formatos diferentes na transmissão. Não inclua senhas ou dados pessoais em exemplos de estudo.
+
 ## Tente e verifique
 Antes de responder ao exercício, identifique quem iniciou a troca. Depois de responder, explique com suas palavras por que um endereço não é uma resposta. Pense também em uma situação em que o servidor retorna um erro em vez de uma página. Como contraprova, imagine que um aplicativo de celular pede dados de uma API: o aplicativo também é cliente, mesmo sem ser um navegador.
 
