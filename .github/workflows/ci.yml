@@ -23,5 +23,12 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - name: Guardar capturas de homologação
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: homologacao-visual
+          path: test-results/homologacao/
+          if-no-files-found: warn
       - run: node scripts/build-lesson-fixture.mjs
       - run: npx playwright test --config=playwright.lesson.config.ts
