@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import GuidedTrail from '../../components/GuidedTrail';
 import { getCollection } from 'astro:content';
-const order = ['http-essencial', 'appsec-cookies-sessao-01', 'appsec-autorizacao-objetos-01'];
+const order = ['http-essencial', 'cookies-sessao', 'autorizacao-objetos'];
 const entries = await getCollection('modules', ({ id, data }) => order.includes(id) && !data.draft);
 const modules = order.flatMap(id => {
   const match = entries.find(entry => entry.id === id);
