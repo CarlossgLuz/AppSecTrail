@@ -1,7 +1,9 @@
+import { evaluateDiagnostic } from './diagnostic';
+export type Assessment = { version: 1; at: string; answers: Record<string, string>; correct: number; total: number; competencyId: string; percent: number };
 export type Attempt = { moduleId: string; moduleVersion: number; optionId: string; correct: boolean; at: string };
 export type ModuleProgress = { moduleVersion: number; completed: boolean; updatedAt: string };
 export type LessonEvent = { lessonId: string; lessonVersion: number; state: 'visited' | 'started' | 'completed'; at: string };
-export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: LessonEvent[]; attempts: Attempt[]; progress: Record<string, ModuleProgress> };
+export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: LessonEvent[]; attempts: Attempt[]; progress: Record<string, ModuleProgress>; assessments?: Assessment[] };
 const DB_NAME = 'appsectrail-profile';
 type RecordData = { key: 'active'; data: Profile };
 
@@ -31,6 +33,21 @@ async function access<T>(mode: IDBTransactionMode, action: (store: IDBObjectStor
 }
 export async function getProfile(): Promise<Profile | null> {
   return access('readonly', (store, done) => { const request = store.get('active'); request.onsuccess = () => done((request.result as RecordData | undefined)?.data ?? null); });
+}
+export async function recordDiagnostic(answers: Record<string, string>): Promise<boolean> {
+  const result = evaluateDiagnostic(answers);
+  const at = new Date().toISOString();
+  const assessment: Assessment = { version: 1, at, answers: { ...answers }, ...result };
+  return access('readwrite', (store, done) => {
+    const request = store.get('active');
+    request.onsuccess = () => {
+      const current = request.result as RecordData | undefined;
+      if (!current) { done(false); return; }
+      if ((current.data.assessments?.length ?? 0) >= 1000) { request.transaction?.abort(); return; }
+      store.put({ key: 'active', data: { ...current.data, updatedAt: at, assessments: [...(current.data.assessments ?? []), assessment] } } satisfies RecordData);
+      done(true);
+    };
+  });
 }
 export async function recordLessonEvent(lessonId: string, lessonVersion: number, state: LessonEvent['state']): Promise<boolean> {
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(lessonId) || !Number.isSafeInteger(lessonVersion) || lessonVersion < 1 || !['visited', 'started', 'completed'].includes(state)) throw new Error('Evento de aula inválido.');
