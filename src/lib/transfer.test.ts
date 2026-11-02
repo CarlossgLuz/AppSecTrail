@@ -1,10 +1,26 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createProfile, getProfile, renameProfile, recordAttempt } from './profile';
+import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent } from './profile';
 import { exportProfile, parseBackup, importProfile, MAX_BACKUP_BYTES } from './transfer';
 
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 describe('portabilidade de perfil', () => {
+  it('preserva eventos de aula na exportação e importação', async () => {
+    await createProfile('Ana');
+    await recordLessonEvent('http-essencial', 1, 'visited');
+    await recordLessonEvent('http-essencial', 1, 'completed');
+    const before = await getProfile();
+    const backup = parseBackup(await exportProfile());
+    await importProfile(backup, before);
+    expect((await getProfile())?.lessonHistory).toEqual(before?.lessonHistory);
+  });
+  it('aceita backup anterior sem histórico e rejeita evento inválido', async () => {
+    await createProfile('Ana');
+    const old = JSON.parse(await exportProfile());
+    expect(parseBackup(JSON.stringify(old)).profile.lessonHistory).toEqual([]);
+    old.profile.lessonHistory = [{ lessonId: 'http-essencial', lessonVersion: 1, state: 'inventado', at: new Date().toISOString() }];
+    expect(() => parseBackup(JSON.stringify(old))).toThrow();
+  });
   it('exporta histórico e importa em um banco limpo', async () => {
     await createProfile('Ana');
     await recordAttempt({ moduleId: 'http-essencial', moduleVersion: 1, optionId: 'resposta', correct: true });
