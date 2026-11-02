@@ -11,7 +11,8 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Entenda commits, branches, diffs, PRs e a ligação entre revisão, testes e rollback
+- Explicar as diferenças entre commits, branches, diffs e pull requests.
+- Identificar como revisão, testes e rollback reduzem o risco de mudanças.
 competencyIds:
 - F06.01
 - F06.02
