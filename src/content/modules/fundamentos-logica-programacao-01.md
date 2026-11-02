@@ -11,7 +11,7 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Leia pequenos trechos de código, interprete entradas e escreva condições com significado
+- Ler pequenos trechos de código, interpretar entradas e escrever condições com significado
 competencyIds:
 - F02.01
 - F02.02

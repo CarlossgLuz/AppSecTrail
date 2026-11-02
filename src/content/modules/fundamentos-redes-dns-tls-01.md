@@ -11,7 +11,7 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Siga a jornada de uma conexão HTTPS e saiba o que cada controle realmente garante
+- Explicar a jornada de uma conexão HTTPS e os limites de cada controle
 competencyIds:
 - F04.01
 - F04.02

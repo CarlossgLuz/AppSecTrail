@@ -11,7 +11,7 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Identifique hardware, sistema operacional, processo, serviço e aplicativo antes de analisar segurança
+- Identificar hardware, sistema operacional, processo, serviço e aplicativo antes de analisar segurança
 competencyIds:
 - F01.01
 - F01.03
