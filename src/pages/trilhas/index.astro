@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import GuidedTrail from '../../components/GuidedTrail';
+import { getCollection } from 'astro:content';
+const entries = await getCollection('modules', ({ id, data }) => id === 'http-essencial' && !data.draft);
+const modules = entries.map(({ id, data }) => ({ id, title: data.title, summary: data.summary }));
+---
+<Base title="Trilhas"><p class="eyebrow">Percurso guiado</p><h1>Fundamentos de comunicação web</h1><p>Comece reconhecendo requisições e respostas HTTP (competência F04.05). A trilha está em construção e não bloqueia o acesso à biblioteca.</p><p>Conhecimentos prévios recomendados: noções de cliente e servidor. Não são obrigatórios.</p><GuidedTrail client:load modules={modules} /></Base>
