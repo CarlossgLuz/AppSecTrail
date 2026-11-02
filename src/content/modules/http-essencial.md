@@ -4,6 +4,18 @@ category: Fundamentos
 summary: 'Um primeiro contato com a comunicação entre cliente e servidor.'
 version: 1
 draft: true
+id: fundamentos-http-01
+locale: pt-BR
+author: AppSecTrail
+license: CC-BY-4.0
+technicalReviewStatus: reviewed
+lastTechnicalReview: '2026-11-01'
+learningObjectives:
+  - Identificar requisição e resposta HTTP em uma troca simples.
+competencyIds: ['F04.05']
+references:
+  - url: https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Guides/Overview
+    accessDate: '2026-11-01'
 exercise:
   prompt: 'Quando um navegador solicita uma página e o servidor envia o resultado, qual mensagem é a resposta?'
   correctId: resposta
@@ -31,10 +43,10 @@ HTTP é um protocolo usado para a troca de mensagens entre cliente e servidor. U
 
 Por exemplo, um navegador faz uma requisição `GET` para obter uma página. O servidor pode responder com status `200` e um corpo contendo HTML. Se o recurso não existir, pode responder com `404`. Os detalhes dependem do servidor e da situação.
 
-## Verifique seu raciocínio
-Antes de responder ao exercício, identifique quem iniciou a troca. Depois de responder, explique com suas palavras por que um endereço não é uma resposta. Pense também em uma situação em que o servidor retorna um erro em vez de uma página.
+## Tente e verifique
+Antes de responder ao exercício, identifique quem iniciou a troca. Depois de responder, explique com suas palavras por que um endereço não é uma resposta. Pense também em uma situação em que o servidor retorna um erro em vez de uma página. Como contraprova, imagine que um aplicativo de celular pede dados de uma API: o aplicativo também é cliente, mesmo sem ser um navegador.
 
 ## Fonte para aprofundar
 - [MDN — Visão geral do HTTP](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Guides/Overview)
 
-Rascunho: requer revisão técnica, pedagógica, de acessibilidade e de fontes antes da publicação.
+Conteúdo em revisão de acessibilidade e validação final antes da publicação.

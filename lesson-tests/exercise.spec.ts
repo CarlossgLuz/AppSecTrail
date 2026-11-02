@@ -12,7 +12,10 @@ test('aluno acessa a aula e recebe dica e feedback para cada tentativa', async (
   await page.getByLabel('O endereço digitado pelo usuário.').check();
   await page.getByRole('button', { name: 'Verificar resposta' }).click();
   await expect(page.getByRole('status')).toContainText('O endereço identifica um recurso');
-  await page.getByLabel('A mensagem enviada pelo servidor em retorno à requisição.').check();
+  const correct = page.getByLabel('A mensagem enviada pelo servidor em retorno à requisição.');
+  await correct.focus();
+  await page.keyboard.press('Space');
+  await expect(correct).toBeChecked();
   await page.getByRole('button', { name: 'Verificar resposta' }).click();
   await expect(page.getByRole('status')).toContainText('Correto.');
 });
