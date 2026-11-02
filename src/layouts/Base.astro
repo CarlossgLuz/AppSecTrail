@@ -31,12 +31,9 @@ const isCurrent = (href: string) => {
           </span><span>AppSec<span>Trail</span></span>
         </a>
         <nav class="site-nav" aria-label="Navegação principal">
-          <a href={sitePath('/')} aria-current={isCurrent('/')}>Início</a>
-          <a href={sitePath('/biblioteca/')} aria-current={isCurrent('/biblioteca/')}>Biblioteca</a>
-          <a href={sitePath('/trilhas/')} aria-current={isCurrent('/trilhas/')}>Trilhas</a>
+          <a href={sitePath('/biblioteca/')} aria-current={isCurrent('/biblioteca/') || isCurrent('/trilhas/')}>Biblioteca</a>
           <a href={sitePath('/diagnostico/')} aria-current={isCurrent('/diagnostico/')}>Diagnóstico</a>
           <a href={sitePath('/perfil/')} aria-current={isCurrent('/perfil/')}>Perfil</a>
-          <a href={sitePath('/sobre/')} aria-current={isCurrent('/sobre/')}>Sobre</a>
         </nav>
       </div>
     </header>
@@ -46,14 +43,12 @@ const isCurrent = (href: string) => {
     <footer class="site-footer">
       <div class="shell footer-inner">
         <div>
-          <strong style="color: var(--text-primary)">AppSecTrail</strong> · Plataforma aberta de engenharia de segurança (100% local-first, sem rastreamento)
+          <strong style="color: var(--text-primary)">AppSecTrail</strong> · Alpha open source · Seus dados ficam neste navegador
         </div>
         <div class="footer-links">
-          <a href={sitePath('/biblioteca/')}>Explorar catálogo</a>
-          <a href={sitePath('/trilhas/')}>Percursos guiados</a>
-          <a href={sitePath('/diagnostico/')}>Autoavaliação HTTP</a>
-          <a href={sitePath('/perfil/')}>Backup JSON</a>
-          <a href={sitePath('/sobre/')}>Licença & Governança</a>
+          <a href={sitePath('/trilhas/')}>Trilhas</a>
+          <a href={sitePath('/perfil/')}>Backup</a>
+          <a href={sitePath('/sobre/')}>Sobre</a>
         </div>
       </div>
     </footer>

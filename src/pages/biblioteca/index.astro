@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { sitePath } from '../../lib/paths';
 import Catalog from '../../components/Catalog';
 import { getCollection } from 'astro:content';
 const entries = await getCollection('modules', ({ data }) => !data.draft);
@@ -7,11 +8,9 @@ const modules = entries.map(({ id, data }) => ({ id, title: data.title, category
 ---
 <Base title="Biblioteca">
   <header style="margin-bottom: 1.5rem;">
-    <p class="eyebrow">Conteúdo livre</p>
-    <h1>Explore a biblioteca.</h1>
-    <p class="lead">
-      Encontre um assunto e estude na ordem que fizer sentido para você. Cada módulo combina explicação direta, exemplo seguro e verificação prática.
-    </p>
+    <h1>Biblioteca</h1>
+    <p class="lead">Escolha um assunto e comece. Todas as aulas têm acesso livre.</p>
+    <a class="minimal-inline-link" href={sitePath('/trilhas/')}>Prefere uma sequência? Veja a trilha guiada →</a>
   </header>
   <Catalog client:load modules={modules} />
 </Base>
