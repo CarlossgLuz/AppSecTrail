@@ -5,6 +5,12 @@ import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEv
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 
 describe('perfil local', () => {
+  it('rejeita dados inválidos de aula sem alterar o perfil', async () => {
+    await createProfile('Ana');
+    const before = await getProfile();
+    await expect(recordLessonEvent('../invalido', 0, 'visited')).rejects.toThrow();
+    expect(await getProfile()).toEqual(before);
+  });
   it('registra visita, início e conclusão sem confundir seus estados', async () => {
     await createProfile('Ana');
     await recordLessonEvent('http-essencial', 1, 'visited');

@@ -33,11 +33,13 @@ export async function getProfile(): Promise<Profile | null> {
   return access('readonly', (store, done) => { const request = store.get('active'); request.onsuccess = () => done((request.result as RecordData | undefined)?.data ?? null); });
 }
 export async function recordLessonEvent(lessonId: string, lessonVersion: number, state: LessonEvent['state']): Promise<boolean> {
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(lessonId) || !Number.isSafeInteger(lessonVersion) || lessonVersion < 1 || !['visited', 'started', 'completed'].includes(state)) throw new Error('Evento de aula inválido.');
   return access('readwrite', (store, done) => {
     const request = store.get('active');
     request.onsuccess = () => {
       const current = request.result as RecordData | undefined;
       if (!current) { done(false); return; }
+      if (current.data.lessonHistory.length >= 10000) { request.transaction?.abort(); return; }
       const at = new Date().toISOString();
       store.put({ key: 'active', data: { ...current.data, updatedAt: at, lessonHistory: [...current.data.lessonHistory, { lessonId, lessonVersion, state, at }] } } satisfies RecordData);
       done(true);
