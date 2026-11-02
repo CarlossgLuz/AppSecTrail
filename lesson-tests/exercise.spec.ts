@@ -4,6 +4,9 @@ test('aluno acessa a aula e recebe dica e feedback para cada tentativa', async (
   await page.goto('/biblioteca/');
   await page.getByRole('link', { name: 'HTTP: requisições e respostas' }).click();
   await expect(page.getByRole('heading', { name: 'HTTP: requisições e respostas' })).toBeVisible();
+  const exercise = page.locator('astro-island[component-export="default"][component-url*="Exercise"]');
+  await expect(exercise).toHaveCount(1);
+  await expect(exercise).not.toHaveAttribute('ssr', '');
   await page.getByRole('button', { name: 'Mostrar ou ocultar dica' }).click();
   await expect(page.getByText('Pense em quem responde depois de receber um pedido.')).toBeVisible();
   await page.getByLabel('A mensagem enviada pelo navegador para pedir a página.').check();
