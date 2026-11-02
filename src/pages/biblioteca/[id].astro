@@ -9,4 +9,4 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
-<Base title={entry.data.title}><a href="/biblioteca/">← Biblioteca</a><p class="eyebrow">{entry.data.category}</p><h1>{entry.data.title}</h1><p>{entry.data.summary}</p><article><Content /></article>{entry.data.exercise && <Exercise client:load {...entry.data.exercise} />}</Base>
+<Base title={entry.data.title}><a href="/biblioteca/">← Biblioteca</a><p class="eyebrow">{entry.data.category}</p><h1>{entry.data.title}</h1><p>{entry.data.summary}</p><article><Content /></article>{entry.data.exercise && <Exercise client:load {...entry.data.exercise} moduleId={entry.id} moduleVersion={entry.data.version} />}</Base>
