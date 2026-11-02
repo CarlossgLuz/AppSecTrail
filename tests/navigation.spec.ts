@@ -1,4 +1,27 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('verifica acessibilidade automatizada das telas principais', async ({ page }) => {
+  for (const path of ['/', '/biblioteca/', '/perfil/', '/diagnostico/']) {
+    await page.goto(path);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations, `axe em ${path}`).toEqual([]);
+  }
+});
+
+test('navega pelo teclado até a biblioteca', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Pular para o conteúdo' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'AppSecTrail' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Início', exact: true })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Biblioteca', exact: true })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/biblioteca\/$/);
+});
 
 test('navega para biblioteca e mantém o conteúdo acessível na tela', async ({ page }) => {
   await page.goto('/');
