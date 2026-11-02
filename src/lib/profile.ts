@@ -1,4 +1,6 @@
-export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: never[]; attempts: never[]; progress: Record<string, never> };
+export type Attempt = { moduleId: string; moduleVersion: number; optionId: string; correct: boolean; at: string };
+export type ModuleProgress = { moduleVersion: number; completed: boolean; updatedAt: string };
+export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: never[]; attempts: Attempt[]; progress: Record<string, ModuleProgress> };
 const DB_NAME = 'appsectrail-profile';
 type RecordData = { key: 'active'; data: Profile };
 
@@ -37,4 +39,19 @@ export async function createProfile(value: string): Promise<Profile> {
 export async function renameProfile(value: string): Promise<Profile> {
   const name = validateName(value);
   return access('readwrite', (store, done) => { const request = store.get('active'); request.onsuccess = () => { const current = request.result as RecordData | undefined; if (!current) { request.transaction?.abort(); return; } const profile = { ...current.data, name, updatedAt: new Date().toISOString() }; store.put({ key: 'active', data: profile } satisfies RecordData); done(profile); }; });
+}
+export async function recordAttempt(input: Omit<Attempt, 'at'>): Promise<boolean> {
+  return access('readwrite', (store, done) => {
+    const request = store.get('active');
+    request.onsuccess = () => {
+      const current = request.result as RecordData | undefined;
+      if (!current) { done(false); return; }
+      const at = new Date().toISOString();
+      const previous = current.data.progress[input.moduleId];
+      const completed = input.correct || (previous?.moduleVersion === input.moduleVersion && previous.completed);
+      const data: Profile = { ...current.data, updatedAt: at, attempts: [...current.data.attempts, { ...input, at }], progress: { ...current.data.progress, [input.moduleId]: { moduleVersion: input.moduleVersion, completed, updatedAt: at } } };
+      store.put({ key: 'active', data } satisfies RecordData);
+      done(true);
+    };
+  });
 }
