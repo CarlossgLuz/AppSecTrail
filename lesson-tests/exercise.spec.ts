@@ -64,6 +64,11 @@ test('exporta, valida, prevê e importa em outro contexto', async ({ browser }) 
   await expect(other.getByText(/Arquivo inválido/)).toBeVisible();
   await other.getByLabel('Selecionar backup JSON').setInputFiles(path);
   await expect(other.getByText(/Perfil: Ana/)).toBeVisible();
+  await other.getByRole('button', { name: 'Cancelar' }).click();
+  await expect(other.getByText(/Perfil: Ana/)).not.toBeVisible();
+  await expect(other.getByRole('textbox', { name: 'Nome ou apelido' })).toHaveValue('');
+  await other.getByLabel('Selecionar backup JSON').setInputFiles(path);
+  await expect(other.getByText(/Perfil: Ana/)).toBeVisible();
   await other.getByRole('button', { name: 'Confirmar importação' }).click();
   await expect(other.getByText(/Perfil importado/)).toBeVisible();
   await other.reload();
