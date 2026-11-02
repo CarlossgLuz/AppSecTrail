@@ -11,7 +11,8 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Entenda gatilhos, jobs, testes, artefatos, deploy e as primeiras fronteiras de confiança
+- Distinguir gatilhos, jobs, testes, artefatos e deploy em um pipeline simples.
+- Identificar a fronteira de confiança entre código de PR não confiável e operações com credenciais sensíveis.
 competencyIds:
 - D01.01
 - D01.02
