@@ -17,3 +17,12 @@ test('trilha orienta sem bloquear o módulo e mostra progresso local', async ({ 
   await page.goto('/trilhas/');
   await expect(page.getByText('Concluída no perfil local')).toBeVisible();
 });
+
+test('trilha apresenta HTTP, cookies e autorização na ordem recomendada', async ({ page }) => {
+  await page.goto('/trilhas/');
+  const links = page.getByRole('region', { name: 'Etapas da trilha' }).getByRole('link');
+  await expect(links).toHaveCount(4);
+  await expect(links.nth(0)).toHaveText('HTTP: requisições e respostas');
+  await expect(links.nth(1)).toHaveText('Cookies de sessão: atributos e limites');
+  await expect(links.nth(2)).toHaveText('Autorização: quem pode acessar qual recurso?');
+});
