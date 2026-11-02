@@ -4,9 +4,9 @@ import { recordLessonEvent, type LessonEvent } from '../lib/profile';
 export default function LessonHistory({ lessonId, lessonVersion }: { lessonId: string; lessonVersion: number }) {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
-  useEffect(() => { recordLessonEvent(lessonId, lessonVersion, 'visited').catch(() => setMessage('Não foi possível registrar a visita.')); }, [lessonId, lessonVersion]);
+  useEffect(() => { recordLessonEvent(lessonId, lessonVersion, 'visited').then(saved => setMessage(saved ? 'Visita salva no perfil.' : 'Crie um perfil para salvar seu histórico.')).catch(() => setMessage('Não foi possível registrar a visita.')); }, [lessonId, lessonVersion]);
   async function save(state: LessonEvent['state']) {
-    setBusy(true);
+    setBusy(true); setMessage('');
     try { setMessage(await recordLessonEvent(lessonId, lessonVersion, state) ? 'Registro salvo no perfil.' : 'Crie um perfil para salvar seu histórico.'); }
     catch { setMessage('Não foi possível salvar o registro.'); }
     finally { setBusy(false); }

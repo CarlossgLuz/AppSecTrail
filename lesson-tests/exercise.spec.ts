@@ -30,11 +30,17 @@ test('salva tentativa no perfil e mantém histórico após recarregar', async ({
   await page.getByRole('button', { name: 'Salvar perfil' }).click();
   await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
   await page.goto('/biblioteca/http-essencial/');
+  await expect(page.getByText('Visita salva no perfil.')).toBeVisible();
+  await page.getByRole('button', { name: 'Iniciar estudo' }).click();
+  await expect(page.getByText('Registro salvo no perfil.')).toBeVisible();
+  await page.getByRole('button', { name: 'Marcar aula como concluída' }).click();
+  await expect(page.getByText('Registro salvo no perfil.')).toBeVisible();
   await page.getByLabel('A mensagem enviada pelo servidor em retorno à requisição.').check();
   await page.getByRole('button', { name: 'Verificar resposta' }).click();
   await expect(page.getByText('Tentativa salva no perfil local.')).toBeVisible();
   await page.goto('/perfil/');
   await expect(page.getByText(/http-essencial — acertou/)).toBeVisible();
+  await expect(page.getByText(/http-essencial \(v1\) — concluída/)).toBeVisible();
   await page.reload();
   await expect(page.getByText(/http-essencial — acertou/)).toBeVisible();
 });
