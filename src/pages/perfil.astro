@@ -4,4 +4,21 @@ import Base from '../layouts/Base.astro';
 import ProfileForm from '../components/ProfileForm';
 import ProfileTransfer from '../components/ProfileTransfer';
 ---
-<Base title="Perfil"><p class="eyebrow">Seu espaço local</p><h1>Seu perfil de estudo.</h1><p><a href={sitePath('/diagnostico/')}>Fazer diagnóstico piloto de HTTP</a></p><ProfileForm client:load /><ProfileTransfer client:load /></Base>
+<Base title="Perfil">
+  <header class="lesson-header-card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <p class="eyebrow">Seu espaço local</p>
+        <h1 style="margin-bottom: 0.5rem;">Seu perfil de estudo.</h1>
+        <p class="lead" style="margin-bottom: 0;">
+          Gerencie sua identidade local, acompanhe aulas e tentativas registradas neste navegador e exporte backups portáveis.
+        </p>
+      </div>
+      <div class="actions" style="margin: 0;">
+        <a class="button secondary" href={sitePath('/diagnostico/')}>Fazer diagnóstico piloto de HTTP</a>
+      </div>
+    </div>
+  </header>
+  <ProfileForm client:load />
+  <ProfileTransfer client:load />
+</Base>

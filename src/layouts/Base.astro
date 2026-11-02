@@ -3,7 +3,59 @@ import { sitePath } from '../lib/paths';
 import '../styles/global.css';
 interface Props { title: string; description?: string }
 const { title, description = 'Aprenda segurança de aplicações e DevSecOps no seu ritmo.' } = Astro.props;
+const pathname = Astro.url.pathname;
+const isCurrent = (href: string) => {
+  const full = sitePath(href);
+  if (href === '/') return pathname === full || pathname === `${full.replace(/\/$/, '')}` ? 'page' : undefined;
+  return pathname.startsWith(full) ? 'page' : undefined;
+};
 ---
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><title>{title} | AppSecTrail</title></head><body>
-<a class="skip" href="#conteudo">Pular para o conteúdo</a><header><div class="shell header-inner"><a class="brand" href={sitePath('/')}>AppSec<span>Trail</span></a><nav aria-label="Navegação principal"><a href={sitePath('/')}>Início</a><a href={sitePath('/biblioteca/')}>Biblioteca</a><a href={sitePath('/trilhas/')}>Trilhas</a><a href={sitePath('/diagnostico/')}>Diagnóstico</a><a href={sitePath('/perfil/')}>Perfil</a><a href={sitePath('/sobre/')}>Sobre</a></nav></div></header>
-<main id="conteudo" class="shell"><slot /></main><footer><div class="shell">AppSecTrail · aprendizado aberto em construção</div></footer></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title} | AppSecTrail</title>
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href={sitePath('/')}>
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </span><span>AppSec<span>Trail</span></span>
+        </a>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a href={sitePath('/')} aria-current={isCurrent('/')}>Início</a>
+          <a href={sitePath('/biblioteca/')} aria-current={isCurrent('/biblioteca/')}>Biblioteca</a>
+          <a href={sitePath('/trilhas/')} aria-current={isCurrent('/trilhas/')}>Trilhas</a>
+          <a href={sitePath('/diagnostico/')} aria-current={isCurrent('/diagnostico/')}>Diagnóstico</a>
+          <a href={sitePath('/perfil/')} aria-current={isCurrent('/perfil/')}>Perfil</a>
+          <a href={sitePath('/sobre/')} aria-current={isCurrent('/sobre/')}>Sobre</a>
+        </nav>
+      </div>
+    </header>
+    <main id="conteudo" class="shell">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <strong style="color: var(--text-primary)">AppSecTrail</strong> · Plataforma aberta de engenharia de segurança (100% local-first, sem rastreamento)
+        </div>
+        <div class="footer-links">
+          <a href={sitePath('/biblioteca/')}>Explorar catálogo</a>
+          <a href={sitePath('/trilhas/')}>Percursos guiados</a>
+          <a href={sitePath('/diagnostico/')}>Autoavaliação HTTP</a>
+          <a href={sitePath('/perfil/')}>Backup JSON</a>
+          <a href={sitePath('/sobre/')}>Licença & Governança</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

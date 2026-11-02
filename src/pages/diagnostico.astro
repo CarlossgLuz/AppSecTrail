@@ -2,4 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Diagnostic from '../components/Diagnostic';
 ---
-<Base title="Diagnóstico"><h1>Diagnóstico piloto de HTTP</h1><Diagnostic client:load /></Base>
+<Base title="Diagnóstico">
+  <header style="margin-bottom: 1.5rem;">
+    <p class="eyebrow">Autoavaliação formativa</p>
+    <h1>Diagnóstico piloto de HTTP</h1>
+  </header>
+  <Diagnostic client:load />
+</Base>
