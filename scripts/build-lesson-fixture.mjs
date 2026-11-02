@@ -13,5 +13,14 @@ const lesson = resolve(fixture, 'src/content/modules/http-essencial.md');
 const content = readFileSync(lesson, 'utf8');
 if (!content.includes('draft: true') && !content.includes('draft: false')) throw new Error('Estado editorial da aula não encontrado.');
 writeFileSync(lesson, content.replace('draft: true', 'draft: false'));
+// Expose package drafts only in the disposable test build. Review flags here are
+// fixture settings, never changes to the canonical editorial status.
+for (const slug of ['fundamentos-computacao-sistemas-01', 'fundamentos-logica-programacao-01', 'fundamentos-redes-dns-tls-01']) {
+  const path = resolve(fixture, `src/content/modules/${slug}.md`);
+  const draft = readFileSync(path, 'utf8');
+  if (draft.includes('draft: true')) {
+    writeFileSync(path, draft.replace('draft: true', 'draft: false').replace('technicalReviewStatus: pending', 'technicalReviewStatus: reviewed').replace('pedagogicalReview: pending', 'pedagogicalReview: reviewed'));
+  } else if (!draft.includes('draft: false')) throw new Error(`Estado editorial desconhecido: ${slug}`);
+}
 const result = spawnSync(resolve(root, 'node_modules/.bin/astro'), ['build', '--root', fixture], { stdio: 'inherit', env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' } });
 if (result.error || result.status !== 0) throw result.error ?? new Error('Falha no build da fixture.');
