@@ -11,7 +11,8 @@ license: CC-BY-4.0
 technicalReviewStatus: pending
 lastTechnicalReview: ''
 learningObjectives:
-- Demonstrar Diferencie ativo, ameaça, vulnerabilidade, risco, hipótese e evidência na tomada de decisão
+- Diferenciar ativo, ameaça, vulnerabilidade, risco, hipótese e evidência.
+- Justificar uma decisão de priorização sem confundir alerta de ferramenta com exploração comprovada.
 competencyIds:
 - F07.01
 - F07.05
