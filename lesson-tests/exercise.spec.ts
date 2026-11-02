@@ -63,8 +63,11 @@ test('exporta, valida, prevê e importa em outro contexto', async ({ browser }) 
   await page.getByRole('button', { name: 'Verificar resposta' }).click();
   await expect(page.getByText('Tentativa salva no perfil local.')).toBeVisible();
   await page.goto('/perfil/');
+  const exportButton = page.getByRole('button', { name: 'Exportar perfil JSON' });
+  await expect(exportButton).toBeEnabled();
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Exportar perfil JSON' }).click();
+  await exportButton.click();
+  await expect(page.getByText('Arquivo de backup gerado. Guarde-o em local seguro.')).toBeVisible();
   const download = await downloadPromise;
   const path = await download.path();
   if (!path) throw new Error('Backup não disponível.');
