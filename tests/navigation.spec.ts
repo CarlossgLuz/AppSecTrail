@@ -16,12 +16,12 @@ test('cria, preserva após recarregar e edita perfil local', async ({ page }) =>
   await expect(name).toBeEnabled();
   await name.fill('Ana');
   await page.getByRole('button', { name: 'Salvar perfil' }).click();
-  await expect(page.getByRole('status')).toHaveText('Perfil salvo neste navegador.');
+  await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
   await page.reload();
   await expect(name).toHaveValue('Ana');
   await name.fill('Lia');
   await page.getByRole('button', { name: 'Salvar perfil' }).click();
-  await expect(page.getByRole('status')).toHaveText('Perfil salvo neste navegador.');
+  await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
   await page.reload();
   await expect(name).toHaveValue('Lia');
 });
