@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../lib/paths';
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sobre"><p class="eyebrow">Projeto aberto</p><h1>Aprender segurança com clareza.</h1><p>O AppSecTrail é uma iniciativa gratuita para estudar segurança de aplicações e DevSecOps. O projeto está em desenvolvimento e não oferece certificação profissional.</p><p>O acesso aos módulos não exige cadastro. Recursos de progresso local e exportação estão planejados para etapas futuras.</p><a href="/biblioteca/">Explorar a biblioteca →</a></Base>
+<Base title="Sobre"><p class="eyebrow">Projeto aberto</p><h1>Aprender segurança com clareza.</h1><p>O AppSecTrail é uma iniciativa gratuita para estudar segurança de aplicações e DevSecOps. O projeto está em desenvolvimento e não oferece certificação profissional.</p><p>O acesso aos módulos não exige cadastro. Recursos de progresso local e exportação estão planejados para etapas futuras.</p><a href={sitePath('/biblioteca/')}>Explorar a biblioteca →</a></Base>

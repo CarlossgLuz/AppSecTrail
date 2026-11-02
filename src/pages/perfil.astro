@@ -1,6 +1,7 @@
 ---
+import { sitePath } from '../lib/paths';
 import Base from '../layouts/Base.astro';
 import ProfileForm from '../components/ProfileForm';
 import ProfileTransfer from '../components/ProfileTransfer';
 ---
-<Base title="Perfil"><p class="eyebrow">Seu espaço local</p><h1>Seu perfil de estudo.</h1><p><a href="/diagnostico/">Fazer diagnóstico piloto de HTTP</a></p><ProfileForm client:load /><ProfileTransfer client:load /></Base>
+<Base title="Perfil"><p class="eyebrow">Seu espaço local</p><h1>Seu perfil de estudo.</h1><p><a href={sitePath('/diagnostico/')}>Fazer diagnóstico piloto de HTTP</a></p><ProfileForm client:load /><ProfileTransfer client:load /></Base>
