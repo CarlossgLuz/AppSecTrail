@@ -2,7 +2,7 @@ import astro from 'eslint-plugin-astro';
 import tseslint from 'typescript-eslint';
 
 export default [
-  { ignores: ['dist/**', '.astro/**', 'node_modules/**', 'coverage/**'] },
+  { ignores: ['dist/**', '.astro/**', '.test-fixture/**', 'node_modules/**', 'coverage/**'] },
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
 ];

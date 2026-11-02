@@ -23,3 +23,5 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - run: node scripts/build-lesson-fixture.mjs
+      - run: npx playwright test --config=playwright.lesson.config.ts
