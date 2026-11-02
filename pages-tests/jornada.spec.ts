@@ -24,6 +24,10 @@ test('navegação, perfil, aula, diagnóstico e backup funcionam sob a base', as
   await page.getByRole('link', { name: 'Trilhas', exact: true }).click();
   await expect(page.getByText('Concluída no perfil local')).toBeVisible();
   await page.getByRole('link', { name: 'Diagnóstico', exact: true }).click();
+  // A ilha React é renderizada no HTML antes de aceitar eventos. Aguarde a hidratação.
+  const diagnostic = page.locator('astro-island[component-url*="Diagnostic"]');
+  await expect(diagnostic).toHaveCount(1);
+  await expect(diagnostic).not.toHaveAttribute('ssr', '');
   await page.getByLabel('O servidor').check(); await page.getByLabel('GET', { exact: true }).check();
   await page.getByRole('button', { name: 'Finalizar avaliação' }).click();
   await expect(page.getByText('Avaliação salva no perfil.')).toBeVisible();
