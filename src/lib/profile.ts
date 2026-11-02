@@ -1,5 +1,5 @@
-import { evaluateDiagnostic } from './diagnostic';
-export type Assessment = { version: 1; at: string; answers: Record<string, string>; correct: number; total: number; competencyId: string; percent: number };
+import { diagnosticId, evaluateDiagnostic } from './diagnostic';
+export type Assessment = { assessmentId?: string; version: 1; at: string; answers: Record<string, string>; correct: number; total: number; competencyId: string; percent: number };
 export type Attempt = { moduleId: string; moduleVersion: number; optionId: string; correct: boolean; at: string };
 export type ModuleProgress = { moduleVersion: number; completed: boolean; updatedAt: string };
 export type LessonEvent = { lessonId: string; lessonVersion: number; state: 'visited' | 'started' | 'completed'; at: string };
@@ -37,7 +37,7 @@ export async function getProfile(): Promise<Profile | null> {
 export async function recordDiagnostic(answers: Record<string, string>): Promise<boolean> {
   const result = evaluateDiagnostic(answers);
   const at = new Date().toISOString();
-  const assessment: Assessment = { version: 1, at, answers: { ...answers }, ...result };
+  const assessment: Assessment = { assessmentId: diagnosticId, version: 1, at, answers: { ...answers }, ...result };
   return access('readwrite', (store, done) => {
     const request = store.get('active');
     request.onsuccess = () => {

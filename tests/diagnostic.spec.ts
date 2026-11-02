@@ -14,4 +14,12 @@ test('diagnóstico piloto preserva reavaliações após reload', async ({ page }
   await expect(page.getByText('Competência F04.05: 2/2 acertos (100%).')).toBeVisible();
   await page.reload();
   await expect(page.getByText(/HTTP v1: 2\/2/)).toBeVisible();
+  await page.getByLabel('O cliente').check();
+  await page.getByLabel('GET', { exact: true }).check();
+  await page.getByRole('button', { name: 'Finalizar avaliação' }).click();
+  await expect(page.getByText('Avaliação salva no perfil.')).toBeVisible();
+  await expect(page.getByText(/Variação.*-50 pontos percentuais/)).toBeVisible();
+  await page.reload();
+  await expect(page.getByText(/HTTP v1: 2\/2/)).toBeVisible();
+  await expect(page.getByText(/HTTP v1: 1\/2/)).toBeVisible();
 });

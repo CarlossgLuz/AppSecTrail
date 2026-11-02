@@ -1,10 +1,23 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent } from './profile';
+import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent, recordDiagnostic } from './profile';
 import { exportProfile, parseBackup, importProfile, MAX_BACKUP_BYTES } from './transfer';
 
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 describe('portabilidade de perfil', () => {
+  it('preserva avaliação v1 e rejeita pontuação e versão incompatíveis', async () => {
+    await createProfile('Ana');
+    await recordDiagnostic({ 'http-resposta': 'servidor', 'http-metodo': 'get' });
+    const expected = await getProfile();
+    const backup = parseBackup(await exportProfile());
+    await importProfile(backup, expected);
+    expect(await getProfile()).toEqual(expected);
+    const broken = JSON.parse(JSON.stringify(backup));
+    broken.profile.assessments[0].correct = 0;
+    expect(() => parseBackup(JSON.stringify(broken))).toThrow();
+    broken.profile.assessments[0].version = 2;
+    expect(() => parseBackup(JSON.stringify(broken))).toThrow();
+  });
   it('preserva eventos de aula na exportação e importação', async () => {
     await createProfile('Ana');
     await recordLessonEvent('http-essencial', 1, 'visited');
