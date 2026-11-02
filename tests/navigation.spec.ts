@@ -16,8 +16,6 @@ test('navega pelo teclado até a biblioteca', async ({ page }) => {
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'AppSecTrail' })).toBeFocused();
   await page.keyboard.press('Tab');
-  await expect(page.getByRole('link', { name: 'Início', exact: true })).toBeFocused();
-  await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Biblioteca', exact: true })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/biblioteca\/$/);
@@ -47,4 +45,11 @@ test('cria, preserva após recarregar e edita perfil local', async ({ page }) =>
   await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
   await page.reload();
   await expect(name).toHaveValue('Lia');
+});
+
+test('navegação principal tem apenas três destinos, sem ocultar trilhas e sobre', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: 'Seguir uma trilha' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Sobre', exact: true })).toBeVisible();
 });
