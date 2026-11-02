@@ -1,122 +1,36 @@
 ---
-import { sitePath } from '../lib/paths';
 import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
-const publishedModules = await getCollection('modules', ({ data }) => !data.draft);
+import { sitePath } from '../lib/paths';
 ---
 <Base title="Início">
-  <section class="hero-section" aria-label="Apresentação principal">
-    <div>
-      <p class="eyebrow">Segurança se aprende praticando</p>
-      <h1>Seu caminho em AppSec e DevSecOps começa aqui.</h1>
-      <p class="lead">
-        Entenda os fundamentos da web, descubra como vulnerabilidades surgem na prática e tome decisões mais seguras no ciclo de desenvolvimento de software.
-      </p>
-      <div class="actions">
-        <a class="button" href={sitePath('/biblioteca/')}>Explorar a biblioteca</a>
-        <a class="button secondary" href={sitePath('/trilhas/')}>Ver trilha guiada</a>
-        <a class="button secondary" href={sitePath('/sobre/')}>Conhecer o projeto</a>
-      </div>
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem;">
-        <span class="badge badge-neutral">100% Local-First (IndexedDB)</span>
-        <span class="badge badge-neutral">{publishedModules.length} módulo(s) revisado(s)</span>
-        <span class="badge badge-neutral">Sem cadastro ou rastreamento</span>
-      </div>
+  <section class="minimal-home" aria-labelledby="home-heading">
+    <p class="minimal-kicker">AppSecTrail / Aprendizado aberto</p>
+    <h1 id="home-heading">Segurança de software, passo a passo.</h1>
+    <p class="lead">Aprenda AppSec e DevSecOps com explicações claras, exemplos e prática. No seu ritmo, do básico ao avançado.</p>
+    <div class="actions minimal-actions">
+      <a class="button" href={sitePath('/biblioteca/')}>Explorar a biblioteca</a>
+      <a class="minimal-inline-link" href={sitePath('/trilhas/')}>Seguir uma trilha <span aria-hidden="true">→</span></a>
     </div>
-
-    <aside class="hero-visual-panel" aria-label="Arquitetura de estudo">
-      <div class="hero-visual-header">
-        <span>Mapa de Competências</span>
-        <span class="badge badge-fundamentos">Acesso Livre</span>
-      </div>
-      <div class="hero-layers">
-        <div class="hero-layer-item">
-          <span class="badge badge-fundamentos">01</span>
-          <div>
-            <strong>Fundamentos Web & Protocolos</strong>
-            <p>Requisições, respostas, métodos HTTP, cabeçalhos e estado (F04.05).</p>
-          </div>
-        </div>
-        <div class="hero-layer-item">
-          <span class="badge badge-appsec">02</span>
-          <div>
-            <strong>Application Security (AppSec)</strong>
-            <p>Sessões, atributos de cookies, controle de acesso por objeto e análise de regressão.</p>
-          </div>
-        </div>
-        <div class="hero-layer-item">
-          <span class="badge badge-devsecops">03</span>
-          <div>
-            <strong>DevSecOps & Engenharia</strong>
-            <p>Cadeia de dependências, verificação automatizada e decisões baseadas em risco.</p>
-          </div>
-        </div>
-      </div>
-    </aside>
-  </section>
-
-  <section aria-labelledby="passos-iniciais">
-    <div class="section-header">
-      <div>
-        <h2 id="passos-iniciais">Por onde começar</h2>
-        <p style="margin-bottom: 0;">Escolha o ponto de partida ideal para o seu momento de estudo.</p>
-      </div>
-    </div>
-    <div class="quick-steps-grid">
-      <article class="step-card">
-        <div>
-          <span class="step-number">1</span>
-          <h3>Crie seu perfil local</h3>
-          <p>Ative o registro local no seu navegador para salvar aulas concluídas, tentativas e backups JSON.</p>
-        </div>
-        <a href={sitePath('/perfil/')}>Configurar perfil local →</a>
-      </article>
-      <article class="step-card">
-        <div>
-          <span class="step-number">2</span>
-          <h3>Faça o diagnóstico piloto</h3>
-          <p>Verifique sua compreensão inicial sobre requisições e respostas HTTP em duas questões objetivas.</p>
-        </div>
-        <a href={sitePath('/diagnostico/')}>Iniciar diagnóstico HTTP →</a>
-      </article>
-      <article class="step-card">
-        <div>
-          <span class="step-number">3</span>
-          <h3>Siga a trilha ou explore</h3>
-          <p>Estude pela sequência guiada de fundamentos ou abra diretamente qualquer aula do catálogo.</p>
-        </div>
-        <a href={sitePath('/trilhas/')}>Abrir trilha de fundamentos →</a>
-      </article>
+    <div class="minimal-learning-flow" aria-label="Como você aprende">
+      <span><i class="flow-dot flow-fundamentos" aria-hidden="true"></i> Entender</span>
+      <span class="flow-line" aria-hidden="true"></span>
+      <span><i class="flow-dot flow-appsec" aria-hidden="true"></i> Praticar</span>
+      <span class="flow-line" aria-hidden="true"></span>
+      <span><i class="flow-dot flow-devsecops" aria-hidden="true"></i> Evoluir</span>
     </div>
   </section>
-
-  <section aria-labelledby="como">
-    <div class="section-header">
-      <div>
-        <h2 id="como">Aprenda no seu ritmo</h2>
-        <p style="margin-bottom: 0;">Estrutura pedagógica pensada para clareza técnica sem barreiras artificiais.</p>
-      </div>
+  <section class="minimal-next" aria-labelledby="next-heading">
+    <h2 id="next-heading">Por onde começar?</h2>
+    <div class="minimal-next-links">
+      <a href={sitePath('/trilhas/')}>
+        <strong>Quero um roteiro</strong><span>Siga uma sequência recomendada.</span>
+        <span class="minimal-link-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href={sitePath('/diagnostico/')}>
+        <strong>Quero avaliar meus conhecimentos</strong><span>Experimente o diagnóstico piloto de HTTP.</span>
+        <span class="minimal-link-arrow" aria-hidden="true">↗</span>
+      </a>
     </div>
-    <div class="grid">
-      <article class="card">
-        <span class="badge badge-fundamentos">Didática Progressiva</span>
-        <h3>Comece pelo básico</h3>
-        <p>Conceitos explicados sem presumir experiência anterior, conectando o mecanismo técnico ao impacto de segurança.</p>
-      </article>
-      <article class="card">
-        <span class="badge badge-appsec">Sem Bloqueios</span>
-        <h3>Escolha seu caminho</h3>
-        <p>Acesse módulos independentes, sem bloqueio por pré-requisitos. As trilhas orientam sem restringir sua navegação.</p>
-      </article>
-      <article class="card">
-        <span class="badge badge-devsecops">Laboratório & Evidência</span>
-        <h3>Pratique com contexto</h3>
-        <p>O projeto será ampliado em etapas, com exercícios, pistas graduais, análise de regressão e fontes verificáveis.</p>
-      </article>
-    </div>
+    <p class="minimal-local-note">Seu estudo é livre. <a href={sitePath('/perfil/')}>Crie um perfil local</a> para acompanhar seu progresso e exportar um backup.</p>
   </section>
-
-  <p class="notice">
-    Versão Alpha em desenvolvimento. Perfil local, diagnóstico piloto e acompanhamento já estão disponíveis e continuarão evoluindo.
-  </p>
 </Base>
