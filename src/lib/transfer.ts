@@ -13,7 +13,9 @@ export type Backup = z.infer<typeof schema>;
 export async function exportProfile(): Promise<string> {
   const profile = await getProfile();
   if (!profile) throw new Error('Nenhum perfil para exportar.');
-  return JSON.stringify(schema.parse({ format: 'appsectrail-profile', formatVersion: 1, exportedAt: new Date().toISOString(), profile }), null, 2);
+  const output = JSON.stringify(schema.parse({ format: 'appsectrail-profile', formatVersion: 1, exportedAt: new Date().toISOString(), profile }), null, 2);
+  if (new TextEncoder().encode(output).byteLength > MAX_BACKUP_BYTES) throw new Error('Perfil excede o tamanho suportado para backup.');
+  return output;
 }
 export function parseBackup(text: string): Backup {
   if (new TextEncoder().encode(text).byteLength > MAX_BACKUP_BYTES) throw new Error('Arquivo excede 2 MB.');

@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createProfile, getProfile, renameProfile, recordAttempt } from './profile';
-import { exportProfile, parseBackup, importProfile } from './transfer';
+import { exportProfile, parseBackup, importProfile, MAX_BACKUP_BYTES } from './transfer';
 
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 describe('portabilidade de perfil', () => {
@@ -20,6 +20,7 @@ describe('portabilidade de perfil', () => {
     const data = JSON.parse(await exportProfile());
     expect(() => parseBackup(JSON.stringify({ ...data, formatVersion: 99 }))).toThrow();
     expect(() => parseBackup(JSON.stringify({ ...data, extra: 'x' }))).toThrow();
+    expect(() => parseBackup(' '.repeat(MAX_BACKUP_BYTES + 1))).toThrow();
   });
   it('não substitui perfil modificado desde a prévia', async () => {
     await createProfile('Ana');

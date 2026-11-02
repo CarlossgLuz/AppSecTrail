@@ -9,7 +9,7 @@ export default function ProfileTransfer() {
   async function download() {
     setMessage('');
     try { const text = await exportProfile(); const url = URL.createObjectURL(new Blob([text], { type: 'application/json' })); const link = document.createElement('a'); link.href = url; link.download = 'appsectrail-perfil.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); setMessage('Arquivo de backup gerado. Guarde-o em local seguro.'); }
-    catch { setMessage('Não foi possível exportar o perfil.'); }
+    catch (error) { setMessage(error instanceof Error && error.message.includes('tamanho suportado') ? 'O perfil excede 2 MB e ainda não pode ser exportado. Não apague os dados locais.' : 'Não foi possível exportar o perfil.'); }
   }
   async function choose(event: ChangeEvent<HTMLInputElement>) {
     setPreview(null); setMessage(''); const file = event.target.files?.[0]; event.target.value = '';
