@@ -23,3 +23,33 @@ test('diagnóstico piloto preserva reavaliações após reload', async ({ page }
   await expect(page.getByText(/HTTP v1: 2\/2/)).toBeVisible();
   await expect(page.getByText(/HTTP v1: 1\/2/)).toBeVisible();
 });
+
+test('transfere avaliação para outro navegador e aceita backup anterior', async ({ browser }) => {
+  const first = await browser.newContext();
+  const page = await first.newPage();
+  await page.goto('/perfil/');
+  const name = page.getByRole('textbox', { name: 'Nome ou apelido' });
+  await expect(name).toBeEnabled(); await name.fill('Ana');
+  await page.getByRole('button', { name: 'Salvar perfil' }).click();
+  await expect(page.getByText('Perfil salvo neste navegador.', { exact: true })).toBeVisible();
+  await page.goto('/diagnostico/');
+  await page.getByLabel('O servidor').check(); await page.getByLabel('GET', { exact: true }).check();
+  await page.getByRole('button', { name: 'Finalizar avaliação' }).click();
+  await expect(page.getByText('Avaliação salva no perfil.')).toBeVisible();
+  await page.goto('/perfil/');
+  const promise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Exportar perfil JSON' }).click();
+  const path = await (await promise).path();
+  if (!path) throw new Error('Backup indisponível');
+  const second = await browser.newContext(); const other = await second.newPage();
+  await other.goto('/perfil/');
+  await other.getByLabel('Selecionar backup JSON').setInputFiles(path);
+  await other.getByRole('button', { name: 'Confirmar importação' }).click();
+  await expect(other.getByText(/Perfil importado/)).toBeVisible();
+  await other.goto('/diagnostico/');
+  await expect(other.getByText(/HTTP v1: 2\/2/)).toBeVisible();
+  await other.goto('/perfil/');
+  await other.getByLabel('Selecionar backup JSON').setInputFiles('lesson-tests/backup-v1.json');
+  await expect(other.getByText(/Perfil: Perfil antigo/)).toBeVisible();
+  await first.close(); await second.close();
+});
