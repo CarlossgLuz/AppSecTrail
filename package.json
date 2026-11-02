@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "check": "astro check",
-    "test": "vitest run"
+    "test": "vitest run src",
+    "lint": "eslint .",
+    "test:e2e": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -28,9 +30,13 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@playwright/test": "^1.64.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "eslint": "^10.14.0",
+    "eslint-plugin-astro": "^3.2.1",
     "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
   },
   "private": true
