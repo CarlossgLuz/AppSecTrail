@@ -1,11 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
 
 test('gera capturas de homologação', async ({ page }, testInfo) => {
-  const dir = join('test-results', 'homologacao', testInfo.project.name);
-  await mkdir(dir, { recursive: true });
-  async function capture(name: string) { await page.screenshot({ path: join(dir, `${name}.png`), fullPage: true }); }
+  const dir = `test-results/homologacao/${testInfo.project.name}`;
+  async function capture(name: string) { await page.screenshot({ path: `${dir}/${name}.png`, fullPage: true }); }
   await page.goto('/'); await expect(page.locator('h1')).toBeVisible(); await capture('inicio');
   await page.goto('/biblioteca/'); await expect(page.locator('h1')).toBeVisible(); await capture('biblioteca');
   await page.goto('/perfil/');
