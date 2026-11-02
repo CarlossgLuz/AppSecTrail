@@ -3,13 +3,13 @@ title: 'Cookies de sessão: atributos e limites'
 category: AppSec
 summary: 'Entenda como atributos de cookies reduzem riscos sem substituir outros controles.'
 version: 1
-draft: true
+draft: false
 id: appsec-cookies-sessao-01
 locale: pt-BR
 author: AppSecTrail
 license: CC-BY-4.0
-technicalReviewStatus: pending
-lastTechnicalReview: ''
+technicalReviewStatus: reviewed
+lastTechnicalReview: '2026-11-02'
 learningObjectives:
   - Explicar o papel de Secure, HttpOnly e SameSite em cookies de sessão.
   - Identificar os limites desses atributos e propor testes positivos e negativos.
@@ -22,7 +22,7 @@ references:
 editorial:
   version: 1
   prerequisites: ['Requisições e respostas HTTP.']
-  pedagogicalReview: pending
+  pedagogicalReview: reviewed
   activities:
     - id: cookie-atributos-01
       version: 1
@@ -67,6 +67,7 @@ O valor é fictício. Não coloque tokens reais em exemplos ou registros. Mesmo 
 Uma pessoa relata que um script injetado não consegue ler `document.cookie`. Isso é compatível com `HttpOnly`, mas não demonstra que o script não possa enviar ações autenticadas. Investigue a causa da injeção e os controles de cada operação antes de concluir que o risco foi eliminado.
 
 ## Atividades de análise e regressão
+Práticas orientadas, sem pontuação automática.
 1. No exercício interativo, relacione cada atributo à sua finalidade. Explique por que as alternativas incorretas falham.
 2. Em uma aplicação de laboratório autorizada, examine o cabeçalho `Set-Cookie` de uma sessão descartável. Registre atributos sem copiar o valor do identificador.
 3. Planeje testes de regressão: verifique o fluxo legítimo em HTTPS; confira que JavaScript não lê o cookie `HttpOnly`; teste uma operação sensível com e sem a proteção CSRF adequada. Uma resposta segura não deve depender apenas de `SameSite`.

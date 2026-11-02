@@ -3,13 +3,13 @@ title: 'Autorização: quem pode acessar qual recurso?'
 category: AppSec
 summary: 'Modele sujeito, ação e recurso para identificar falhas de autorização por objeto.'
 version: 1
-draft: true
+draft: false
 id: appsec-autorizacao-objetos-01
 locale: pt-BR
 author: AppSecTrail
 license: CC-BY-4.0
-technicalReviewStatus: pending
-lastTechnicalReview: ''
+technicalReviewStatus: reviewed
+lastTechnicalReview: '2026-11-02'
 learningObjectives:
   - Diferenciar autenticação de autorização.
   - Propor verificações de acesso por objeto e testes de regressão.
@@ -22,7 +22,7 @@ references:
 editorial:
   version: 1
   prerequisites: ['Requisições e respostas HTTP.']
-  pedagogicalReview: pending
+  pedagogicalReview: reviewed
   activities:
     - id: authz-objeto-01
       version: 1
@@ -63,6 +63,7 @@ Em uma API fictícia, `GET /relatorios/42` não deve retornar o relatório apena
 Ana e Beto têm contas e relatórios distintos. Ana consegue consultar o seu relatório. Uma falha acontece se, ao substituir o identificador pelo relatório privado de Beto, a aplicação entrega os dados sem uma permissão aplicável. Não execute essa troca em sistemas sem autorização; use dados e contas de laboratório.
 
 ## Atividades de análise e regressão
+Práticas orientadas, sem pontuação automática.
 1. Resolva o exercício interativo e nomeie sujeito, ação e recurso na decisão correta.
 2. Escreva uma matriz para duas contas e dois relatórios: dono permitido, outra conta negada e, se existir compartilhamento explícito, usuário autorizado permitido.
 3. Após corrigir a verificação, repita os três casos no endpoint e nos caminhos alternativos, como exportação. Confira também que negar um acesso não alterou dados e que a pessoa legítima continua conseguindo acessar o próprio relatório.
