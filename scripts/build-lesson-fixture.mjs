@@ -11,7 +11,7 @@ for (const name of ['src', 'astro.config.mjs', 'tsconfig.json', 'package.json'])
 symlinkSync(resolve(root, 'node_modules'), resolve(fixture, 'node_modules'), 'dir');
 const lesson = resolve(fixture, 'src/content/modules/http-essencial.md');
 const content = readFileSync(lesson, 'utf8');
-if (!content.includes('draft: true')) throw new Error('A aula de teste não está marcada como rascunho.');
+if (!content.includes('draft: true') && !content.includes('draft: false')) throw new Error('Estado editorial da aula não encontrado.');
 writeFileSync(lesson, content.replace('draft: true', 'draft: false'));
 const result = spawnSync(resolve(root, 'node_modules/.bin/astro'), ['build', '--root', fixture], { stdio: 'inherit', env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' } });
 if (result.error || result.status !== 0) throw result.error ?? new Error('Falha no build da fixture.');

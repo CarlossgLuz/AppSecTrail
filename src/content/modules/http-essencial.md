@@ -3,7 +3,7 @@ title: 'HTTP: requisições e respostas'
 category: Fundamentos
 summary: 'Um primeiro contato com a comunicação entre cliente e servidor.'
 version: 1
-draft: true
+draft: false
 id: fundamentos-http-01
 locale: pt-BR
 author: AppSecTrail
@@ -67,5 +67,3 @@ Antes de responder ao exercício, identifique quem iniciou a troca. Depois de re
 
 ## Fonte para aprofundar
 - [MDN — Visão geral do HTTP](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Guides/Overview)
-
-Conteúdo em revisão de acessibilidade e validação final antes da publicação.
