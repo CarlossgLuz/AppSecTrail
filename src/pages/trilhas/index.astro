@@ -2,23 +2,17 @@
 import Base from '../../layouts/Base.astro';
 import GuidedTrail from '../../components/GuidedTrail';
 import { getCollection } from 'astro:content';
-const entries = await getCollection('modules', ({ id, data }) => id === 'http-essencial' && !data.draft);
-const modules = entries.map(({ id, data }) => ({ id, title: data.title, summary: data.summary }));
+const order = ['http-essencial', 'appsec-cookies-sessao-01', 'appsec-autorizacao-objetos-01'];
+const entries = await getCollection('modules', ({ id, data }) => order.includes(id) && !data.draft);
+const modules = order.flatMap(id => {
+  const match = entries.find(entry => entry.id === id);
+  return match ? [{ id: match.id, title: match.data.title, summary: match.data.summary }] : [];
+});
 ---
 <Base title="Trilhas">
   <header class="lesson-header-card">
-    <div class="lesson-meta-pills">
-      <span class="eyebrow" style="margin-bottom: 0;">Percurso guiado</span>
-      <span class="badge badge-fundamentos">Competência F04.05</span>
-      <span class="badge badge-neutral">Sem bloqueio de etapas</span>
-    </div>
-    <h1>Fundamentos de comunicação web</h1>
-    <p class="lead">
-      Comece reconhecendo requisições e respostas HTTP (competência F04.05). A trilha está em construção e não bloqueia o acesso à biblioteca.
-    </p>
-    <p class="notice" style="margin-bottom: 0;">
-      Conhecimentos prévios recomendados: noções de cliente e servidor. Não são obrigatórios.
-    </p>
+    <h1>Primeiros passos em segurança web</h1>
+    <p class="lead">Entenda HTTP, proteja sessões e aprenda a decidir quem pode acessar cada recurso. Três aulas em sequência — sem bloquear o acesso às demais.</p>
   </header>
   <GuidedTrail client:load modules={modules} />
 </Base>
