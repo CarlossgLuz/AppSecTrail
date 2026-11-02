@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import Catalog from '../../components/Catalog';
+import { getCollection } from 'astro:content';
+const entries = await getCollection('modules', ({ data }) => !data.draft);
+const modules = entries.map(({ id, data }) => ({ id, title: data.title, category: data.category, summary: data.summary }));
+---
+<Base title="Biblioteca"><p class="eyebrow">Conteúdo livre</p><h1>Explore a biblioteca.</h1><p>Encontre um assunto e estude na ordem que fizer sentido para você. Os primeiros módulos estão em revisão.</p><Catalog client:load modules={modules}/></Base>

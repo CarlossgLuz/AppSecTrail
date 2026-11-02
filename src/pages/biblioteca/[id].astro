@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  const entries = await getCollection('modules', ({ data }) => !data.draft);
+  return entries.map(entry => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={entry.data.title}><a href="/biblioteca/">← Biblioteca</a><p class="eyebrow">{entry.data.category}</p><h1>{entry.data.title}</h1><p>{entry.data.summary}</p><article><Content /></article></Base>
