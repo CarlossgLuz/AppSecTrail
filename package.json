@@ -1,0 +1,37 @@
+{
+  "name": "appsectrail",
+  "version": "0.0.1",
+  "description": "Trilha de Aprendizado de AppSec/DevSecOps Open-Source",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "check": "astro check",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarlossgLuz/AppSecTrail.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/CarlossgLuz/AppSecTrail/issues"
+  },
+  "homepage": "https://github.com/CarlossgLuz/AppSecTrail#readme",
+  "dependencies": {
+    "@astrojs/react": "^7.1.2",
+    "astro": "^7.4.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  },
+  "private": true
+}
