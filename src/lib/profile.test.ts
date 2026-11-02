@@ -1,10 +1,18 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createProfile, getProfile, renameProfile, recordAttempt } from './profile';
+import { createProfile, getProfile, renameProfile, recordAttempt, recordLessonEvent } from './profile';
 
 afterEach(async () => { await new Promise<void>((resolve, reject) => { const request = indexedDB.deleteDatabase('appsectrail-profile'); request.onsuccess = () => resolve(); request.onerror = () => reject(request.error); }); });
 
 describe('perfil local', () => {
+  it('registra visita, início e conclusão sem confundir seus estados', async () => {
+    await createProfile('Ana');
+    await recordLessonEvent('http-essencial', 1, 'visited');
+    expect((await getProfile())?.lessonHistory.map(e => e.state)).toEqual(['visited']);
+    await recordLessonEvent('http-essencial', 1, 'started');
+    await recordLessonEvent('http-essencial', 1, 'completed');
+    expect((await getProfile())?.lessonHistory.map(e => e.state)).toEqual(['visited', 'started', 'completed']);
+  });
   it('cria e recupera um perfil com nome normalizado e contrato versionado', async () => {
     const profile = await createProfile('  Ana  ');
     expect(profile.name).toBe('Ana');

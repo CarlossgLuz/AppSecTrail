@@ -1,6 +1,7 @@
 export type Attempt = { moduleId: string; moduleVersion: number; optionId: string; correct: boolean; at: string };
 export type ModuleProgress = { moduleVersion: number; completed: boolean; updatedAt: string };
-export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: never[]; attempts: Attempt[]; progress: Record<string, ModuleProgress> };
+export type LessonEvent = { lessonId: string; lessonVersion: number; state: 'visited' | 'started' | 'completed'; at: string };
+export type Profile = { schemaVersion: 1; id: string; name: string; createdAt: string; updatedAt: string; preferences: { theme: 'system' }; lessonHistory: LessonEvent[]; attempts: Attempt[]; progress: Record<string, ModuleProgress> };
 const DB_NAME = 'appsectrail-profile';
 type RecordData = { key: 'active'; data: Profile };
 
@@ -30,6 +31,18 @@ async function access<T>(mode: IDBTransactionMode, action: (store: IDBObjectStor
 }
 export async function getProfile(): Promise<Profile | null> {
   return access('readonly', (store, done) => { const request = store.get('active'); request.onsuccess = () => done((request.result as RecordData | undefined)?.data ?? null); });
+}
+export async function recordLessonEvent(lessonId: string, lessonVersion: number, state: LessonEvent['state']): Promise<boolean> {
+  return access('readwrite', (store, done) => {
+    const request = store.get('active');
+    request.onsuccess = () => {
+      const current = request.result as RecordData | undefined;
+      if (!current) { done(false); return; }
+      const at = new Date().toISOString();
+      store.put({ key: 'active', data: { ...current.data, updatedAt: at, lessonHistory: [...current.data.lessonHistory, { lessonId, lessonVersion, state, at }] } } satisfies RecordData);
+      done(true);
+    };
+  });
 }
 export async function createProfile(value: string): Promise<Profile> {
   const name = validateName(value); const now = new Date().toISOString();
