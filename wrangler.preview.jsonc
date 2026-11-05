@@ -1,0 +1,6 @@
+{
+  "name": "appsectrail-preview",
+  "compatibility_date": "2026-11-02",
+  "assets": { "directory": "./dist" },
+  "previews": {}
+}
